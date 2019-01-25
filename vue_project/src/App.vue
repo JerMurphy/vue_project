@@ -1,16 +1,22 @@
 <template>
   <div id="app">
     <Header/>
+    <Body class="body"/>
+    <Footer/>
   </div>
 </template>
 
 <script>
 import Header from './components/Header.vue'
+import Footer from './components/Footer.vue'
+import Body from './components/Body.vue'
 
 export default {
   name: 'app',
   components: {
-    Header
+    Header,
+    Body,
+    Footer
   }
 }
 </script>
@@ -26,5 +32,13 @@ export default {
 .logo_img {
   height: 200px;
   width: 200px;
+}
+
+.body{
+  margin-top: 7.5%;
+  overflow-y: auto;
+  border: 1px solid black;
+  margin-left: 20%;
+  margin-right: 20%;
 }
 </style>

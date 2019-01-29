@@ -33,12 +33,8 @@ export default {
   height: 200px;
   width: 200px;
 }
-
 .body{
-  margin-top: 7.5%;
-  overflow-y: auto;
-  border: 1px solid black;
-  margin-left: 20%;
-  margin-right: 20%;
+  margin-top: 15%;
 }
+
 </style>

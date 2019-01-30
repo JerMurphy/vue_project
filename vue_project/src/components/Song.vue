@@ -9,9 +9,9 @@
                 <p class="list-item__subtitle">{{song.artist}}</p>
             </div>
             <div class="right">
-                <p><v-ons-icon icon="fa-chevron-up"></v-ons-icon></p>
-                <p class="num_count">{{song.id + 13}}</p>
-                <p><v-ons-icon icon="fa-chevron-down"></v-ons-icon></p>
+                <v-ons-button modifier="quiet" class="count_btn"><v-ons-icon icon="fa-chevron-up" @click="handle_count(index, 'up')"></v-ons-icon></v-ons-button>
+                <p class="num_count">{{song.count}}</p>
+                <v-ons-button modifier="quiet" class="count_btn"><v-ons-icon icon="fa-chevron-down" @click="handle_count(index, 'down')"></v-ons-icon></v-ons-button>
             </div>
        </v-ons-list-item>
     </div>
@@ -19,10 +19,26 @@
 
 <script>
 export default {
-  name: 'Song',
-  props: {
-    song: Object
-  }
+    name: 'Song',
+    props: {
+        song: Object,
+        index: Number
+    },
+    methods: {
+        handle_count(index,dir){
+            if(dir == 'up'){
+                this.song.count ++;
+            }else{
+                this.song.count --;
+            }
+            if(this.song.count <= 0){
+                this.delete_song(index);
+            }
+        },
+        delete_song(index){
+            this.$emit('del-song', index);
+        }
+    }
 }
 </script>
 
@@ -37,6 +53,9 @@ export default {
         margin-left: 5px;
         margin-right: 5px;
         font-size: 20px;
+    }
+    .count_btn{
+        color:red;
     }
 </style>
 

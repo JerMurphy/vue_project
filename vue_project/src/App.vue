@@ -1,22 +1,60 @@
 <template>
   <div id="app">
-    <Header/>
-    <Body class="body"/>
-    <Footer/>
+    <v-ons-page>
+    <Body v-bind:songs="songs" v-on:del-song="delete_song"/>
+    </v-ons-page>
+    <Footer v-on:add-song="add_song"/>
   </div>
 </template>
 
 <script>
-import Header from './components/Header.vue'
-import Footer from './components/Footer.vue'
 import Body from './components/Body.vue'
+import Footer from './components/Footer.vue'
 
 export default {
   name: 'app',
   components: {
-    Header,
     Body,
     Footer
+  },
+  methods: {
+    delete_song(index){
+      this.songs.splice(index,1)
+    },
+    add_song(obj){
+      this.songs = [...this.songs,obj]
+    }
+  },
+  data(){
+    return {
+      state: 'initial',
+      songs: [
+        {
+          id: 1,
+          song: 'La Macarena',
+          artist: 'Los Del Rio',
+          count: 18
+        },
+        {
+          id: 2,
+          song: 'Never gonna give you up',
+          artist: 'Rick Astley',
+          count: 16
+        },
+        {
+          id: 3,
+          song: 'Who let the dogs out',
+          artist: 'Baha Men',
+          count: 12
+        },
+        {
+          id: 4,
+          song: 'Back in Black',
+          artist: 'AC/DC',
+          count: 8
+        }
+      ]
+    }
   }
 }
 </script>
@@ -33,8 +71,8 @@ export default {
   height: 200px;
   width: 200px;
 }
-.body{
-  margin-top: 15%;
+.header{
+  margin-bottom: 10%;
 }
 
 </style>

@@ -1,79 +1,52 @@
 <template>
     <div>
-       <div>
-          <v-ons-list>
-            <v-ons-list-header>Playlist</v-ons-list-header>
-            <div v-bind:key="song.id" v-for="song in songs">
-               <Song v-bind:song="song" />
+      <v-ons-page>
+        <v-ons-toolbar>
+            <div class="center">Bangers</div>
+            <div class="right">
+                <v-ons-toolbar-button icon="ion-navicon, material: md-menu" class="menu"></v-ons-toolbar-button>
             </div>
-          </v-ons-list>
-       </div>
-        <v-ons-fab position="bottom right" @click="showModal" :visible="fabVisible" class="add_btn">
-          <v-ons-icon icon="md-plus"></v-ons-icon>
-        </v-ons-fab>
-       <v-ons-modal :visible="modalVisible">
-        <div class="modal_div">
-          <div class="inner-modal">
-            <v-ons-icon @click="hideModal" style="float:right; color:black" icon="fa-times"></v-ons-icon>
-            <h4 class="input-text"> Song title</h4>
-            <b-form-input v-model="new_song" type="text" placeholder="title.."></b-form-input>
-            <h4 class="input-text"> Artist Name</h4>
-            <b-form-input v-model="new_artist" type="text" placeholder="artist.."></b-form-input>
-            <b-button  class="add_song_btn" variant="outline-danger">Add song</b-button>
+        </v-ons-toolbar>
+        <v-ons-pull-hook :action="reloadSongs" @changestate="state = $event.state">
+          <span v-show="state === 'initial'"> Pull to refresh </span>
+          <span v-show="state === 'preaction'"> Release </span>
+          <span v-show="state === 'action'"> Loading... </span>
+        </v-ons-pull-hook>
+        <v-ons-list>
+          <v-ons-list-header>Playlist</v-ons-list-header>
+          <div v-bind:key="song.id" v-for="(song, index) in songs">
+            <Song v-bind:song="song" v-bind:index="index" v-on:del-song="$emit('del-song',index)" />
           </div>
-        </div>
-      </v-ons-modal>
+           <v-ons-list-item></v-ons-list-item>
+        </v-ons-list>
+      </v-ons-page>
     </div>
 </template>
 
 
 
 <script>
-import Song from '../components/Song.vue'
+import Song from '../components/Song.vue';
 export default {
   name: 'Body',
   components: {
     Song    
   },
-  Props: {
-    new_artist: String,
-    new_song: String
-  },
+  props:["songs"],
   methods: {
-    showModal() {
-      this.modalVisible = true;
-      
-    },
-    hideModal(){
-      this.modalVisible = false;
+    
+    reloadSongs(done){
+      //this will eventually reload the songs from a database
+      setTimeout(() => {
+        this.state = 'initial';
+        done();
+      }, 2000);
     }
   },
   data(){
     return {
-      fabVisible: true,
-      modalVisible: false,
-      songs: [
-        {
-          id: 1,
-          song: 'La Macarena',
-          artist: 'Los Del Rio'
-        },
-        {
-          id: 2,
-          song: 'Never gonna give you up',
-          artist: 'Rick Astley'
-        },
-        {
-          id: 3,
-          song: 'Who let the dogs out',
-          artist: 'Baha Men'
-        },
-        {
-          id: 4,
-          song: 'Back in Black',
-          artist: 'AC/DC'
-        }
-      ]
+      state: 'initial',
+      
     }
   }
 }
@@ -83,26 +56,13 @@ export default {
   .overflow{
     overflow-y: auto;
   }
-  .add_btn {
-    background-color: #FF5252;
-  }
-  .modal_div{
-    background-color: white;
-    height: 30%;
-    width: 90%;
-    margin-left: 5%;
-  }
-  .input-text{
-    color: black;
-    float: left;
-    margin-top: 5%;
-  }
-  .inner-modal {
-    margin-left: 5%;
-    margin-right: 5%;
-  }
-  .add_song_btn {
-    margin-top: 5%;
-  }
+  .logo_img {
+  height: 50px;
+  width: 50px;
+}
+.menu{
+    color: #FF5252;
+}
+  
 </style>
 
